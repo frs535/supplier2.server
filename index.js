@@ -79,8 +79,9 @@ app.use("/api/price", priceRoutes);
 app.use("/api/product", productRoutes);
 
 /* MONGOOSE SETUP */
-const PORT = process.env.PORT || 9000;
+const PORT = process.env.PORT || 5001;
 
+console.log(`PORT=${process.env.PORT}`)
 console.log(`DB_URL= ${process.env.DB_URL}`)
 
 mongoose
