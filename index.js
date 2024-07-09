@@ -61,22 +61,25 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 /* Default */
+app.get("/", async (req, res)=>{
+    res.status(200).json({ message: `/ Server is running ${new Date()}` });
+});
 app.get("/api", async (req, res)=>{
-    res.status(200).json({ message: `Server is running ${new Date()}` });
+    res.status(200).json({ message: `/api/ Server is running ${new Date()}` });
 });
 
 /* ROUTES WITH FILES */
-app.post("/api/images/:id", verifyToken, upload.single("file"), postImage);
-app.get("/api/images/:id/:type", verifyToken, upload.single("file"), getImages);
+app.post("/api/v1/images/:id", verifyToken, upload.single("file"), postImage);
+app.get("/api/v1/images/:id/:type", verifyToken, upload.single("file"), getImages);
 app.delete("/api/images/:id", verifyToken, deleteImages);
 
 /* ROUTES */
-app.use("/api/client", clientRoutes);
-app.use("/api/general", generalRoutes);
-app.use("/api/users", userRoutes);
-app.use("/api/stock", stockRoutes);
-app.use("/api/price", priceRoutes);
-app.use("/api/product", productRoutes);
+app.use("/api/v1/client", clientRoutes);
+app.use("/api/v1/general", generalRoutes);
+app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/stock", stockRoutes);
+app.use("/api/v1/price", priceRoutes);
+app.use("/api/v1/product", productRoutes);
 
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 5001;
