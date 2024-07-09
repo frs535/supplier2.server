@@ -9,7 +9,7 @@ import clientRoutes from "./routes/client.js";
 import generalRoutes from "./routes/general.js";
 import userRoutes from "./routes/users.js";
 import stockRoutes from "./routes/stock.js";
-import priceRoutes from "./routes/Price.js";
+import priceRoutes from "./routes/price.js";
 import productRoutes from "./routes/product.js";
 
 /* OTHER PROJECT */
@@ -22,7 +22,6 @@ import jwt from "jsonwebtoken";
 import ApiKeys from "./models/ApiKeys.js";
 import {deleteImages, getImages, postImage} from "./controllers/images.js";
 import fs from 'fs';
-import stock from "./models/Stock.js";
 
 /* CONFIGURATION */
 const __filename = fileURLToPath(import.meta.url);
