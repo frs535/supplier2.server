@@ -13,7 +13,7 @@ const SettingsSchema = new mongoose.Schema(
             id: String,
             number: String,
             bank: String,
-            swiftbik: String
+            swiftbik: String,
         },
         phoneNumbers:[
             {

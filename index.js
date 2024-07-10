@@ -84,8 +84,8 @@ app.use("/api/v1/product", productRoutes);
 /* MONGOOSE SETUP */
 const PORT = process.env.PORT || 5001;
 
-console.log(`PORT=${process.env.PORT}`)
-console.log(`DB_URL= ${process.env.DB_URL}`)
+// console.log(`PORT=${process.env.PORT}`)
+// console.log(`DB_URL= ${process.env.DB_URL}`)
 
 mongoose
     .connect(process.env.DB_URL, {
