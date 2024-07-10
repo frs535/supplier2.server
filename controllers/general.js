@@ -47,7 +47,7 @@ export const postProfile = async (req, res)=>{
 export const getSettings = async (req, res)=>{
     try {
         const settings = await Settings.findOne({});
-        res.status(200).json(settings);
+        res.status(200).json(settings? settings : new Settings());
     }
     catch (error){
         res.status(404).json({message: error.message});
