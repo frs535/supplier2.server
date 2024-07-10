@@ -71,7 +71,7 @@ app.get("/api", async (req, res)=>{
 /* ROUTES WITH FILES */
 app.post("/api/v1/images/:id", verifyToken, upload.single("file"), postImage);
 app.get("/api/v1/images/:id/:type", verifyToken, upload.single("file"), getImages);
-app.delete("/api/images/:id", verifyToken, deleteImages);
+app.delete("/api/v1/images/:id", verifyToken, deleteImages);
 
 /* ROUTES */
 app.use("/api/v1/client", clientRoutes);
