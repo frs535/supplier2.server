@@ -67,6 +67,9 @@ app.get("/", async (req, res)=>{
 app.get("/api", async (req, res)=>{
     res.status(200).json({ message: `/api/ Server is running ${new Date()}` });
 });
+app.get("/api/v1", async (req, res)=>{
+    res.status(200).json({ message: `/api/v1 Server is running ${new Date()}` });
+});
 
 /* ROUTES WITH FILES */
 app.post("/api/v1/images/:id", verifyToken, upload.single("file"), postImage);
