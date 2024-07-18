@@ -9,7 +9,7 @@ router.get("/product",verifyToken, getProduct);
 router.get("/products",verifyToken, getProducts);
 router.patch("/products", verifyAdminToken, patchProduct);
 
-router.get("/catalog",verifyToken, getCatalogs);
-router.patch("/catalog", verifyAdminToken, patchCatalog);
+router.get("/Category",verifyToken, getCatalogs);
+router.patch("/Category", verifyAdminToken, patchCatalog);
 
 export default router;

@@ -2,7 +2,7 @@ import Product from "../models/Product.js";
 import Price from "../models/Price.js";
 import Stock from "../models/Stock.js";
 import Image from "../models/Image.js";
-import Catalog from "../models/Catalog.js";
+import Category from "../models/Category.js";
 
 export const getProducts = async (req, res) => {
     try {
@@ -87,7 +87,7 @@ export  const patchProduct = async (req, res) => {
 export const getCatalogs = async  (req, res)=>{
     try {
 
-        const catalogs = await Catalog.find();
+        const catalogs = await Category.find();
 
         res.status(200).json(catalogs);
     } catch (error) {
@@ -98,29 +98,33 @@ export const getCatalogs = async  (req, res)=>{
 export const patchCatalog = async (req, res)=>{
 
     await Product.deleteMany();
-    await Catalog.deleteMany();
+    await Category.deleteMany();
 
     try {
-        req.body.map(async (catalog)=>{
+        req.body.map(async (catigory)=>{
 
             const {
                 id,
                 code,
-                name,
-                child,
-            } = catalog;
+                title,
+                icon,
+                url,
+                sections,
+            } = catigory;
 
-            const foundCatalog = Catalog.findOne({id: id})
-            if(!foundCatalog)
-                await Catalog.deleteOne(foundCatalog);
+            const foundCategory = Category.findOne({id: id})
+            if(!foundCategory)
+                await Category.deleteOne(foundCategory);
 
-            const newCatalog= new Catalog({
+            const newCategory= new Category({
                 id,
                 code,
-                name,
-                child,
+                title,
+                icon,
+                url,
+                sections,
             });
-            await newCatalog.save();
+            await newCategory.save();
         });
 
         res.status(200).json({message: 'successful'})
