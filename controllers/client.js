@@ -1,5 +1,6 @@
 import Order from "../models/Order.js";
 import Partner from "../models/Partner.js";
+import Proposal from "../models/Proposal.js";
 
 export const getPartners = async (req, res)=>{
     try {
@@ -87,11 +88,9 @@ export  const getOrders = async (req, res) =>{
 
         const generateSort = () => {
             const sortParsed = JSON.parse(sort);
-            const sortFormatted = {
+            return {
                 [sortParsed.field]: sortParsed.sort = "asc" ? 1 : -1,
             };
-
-            return sortFormatted;
         };
 
         const sortFormatted = sort !== "{}" && Boolean(sort)? generateSort() : {updatedAt: -1};
@@ -121,9 +120,34 @@ export const postOrder = async (req, res) =>{
 
         const { id } = req.body;
 
-        const result = await Order.replaceOne({id}, req.body, {upsert: true});
+        await Order.replaceOne({id}, req.body, {upsert: true});
 
-        //const savedOrder = await newOrder.save();
+        res.status(200).json({id, updatedAt: new Date()});
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
+export const getProposal = async (req, res) =>{
+    try {
+        const { id } = req.params;
+
+        const proposal = await Proposal.findOne({id});
+
+        if (!proposal) return res.status(404).json({ message: "Proposal not found" });
+
+        res.status(200).json(proposal);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
+export const postProposal = async (req, res) =>{
+    try {
+        const { id } = req.body;
+
+        await Proposal.replaceOne({id}, req.body, {upsert: true});
+
         res.status(200).json({id, updatedAt: new Date()});
     } catch (error) {
         res.status(404).json({ message: error.message });
