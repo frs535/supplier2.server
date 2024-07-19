@@ -1,7 +1,8 @@
 import express from "express";
 import {verifyAdminToken, verifyToken} from "../middleware/auth.js";
 import {
-    getCatalogs, getCategory, getCharacteristic,
+    getCatigory,
+    getCharacteristic,
     getProduct,
     getProducts,
     patchCategory,
@@ -16,7 +17,7 @@ router.get("/product", getProduct);
 router.get("/products", getProducts);
 router.patch("/products", verifyAdminToken, patchProduct);
 
-router.get("/category", getCategory);
+router.get("/category", getCatigory);
 router.patch("/category", verifyAdminToken, patchCategory);
 
 router.get("/characteristic/:id", getCharacteristic);

@@ -8,8 +8,10 @@ import Characteristic from "../models/Characteristic.js";
 
 export const getProducts = async (req, res) => {
     try {
-        const { partnerId } = req.user;
         const { groupId } = req.query;
+
+        let { partnerId } = req.user;
+        if (!partnerId) partnerId = "";
 
         const products = groupId? await Product.find({"searchId" : {$regex : groupId}}) : await Product.find();
 
@@ -17,7 +19,7 @@ export const getProducts = async (req, res) => {
             const prices = await Price.findOne({partnerId, catalogId: product.id})
                 .then(doc=> doc?.prices);
 
-            const defPrice = !partnerId && prices && prices.length > 0 ? prices[0] : {value: 0, unit: { id: "", name: ""}};
+            const defPrice = prices && prices.length > 0 ? prices[0] : {value: 0, unit: { id: "", name: ""}};
 
             let quantity = 0;
             let stock = [];
@@ -50,8 +52,8 @@ export const getProducts = async (req, res) => {
 
 export const getProduct = async (req, res) => {
     try {
-        const { partnerId } = req.user;
-        if (!partnerId) return  res.status(404).json({ message: "Unknown partner" });
+        let { partnerId } = req.user;
+        if (!partnerId) partnerId = "";
 
         const { id } = req.query;
         if (!id) return res.status(404).json({ message: "Unknown product id" });
@@ -86,7 +88,7 @@ export  const patchProduct = async (req, res) => {
     }
 }
 
-export const getCategory = async  (req, res)=>{
+export const getCatigory = async  (req, res)=>{
     try {
         const category = await Category.find();
 
