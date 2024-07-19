@@ -7,7 +7,7 @@ const ProductSchema = new mongoose.Schema({
         max: 32,
         min: 32,
         unique: true,
-        //index: { unique: true}
+        index: true
     },
     article:String,
     name: String,
@@ -43,12 +43,12 @@ const ProductSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    attributes: [
-        {
-            name: String,
-            id: String
+   attributes: [{
+        property: String,
+        value: String
         }
-    ],
+   ],
+   characteristics: [String]
 },
     { timestamps: true }
 );
