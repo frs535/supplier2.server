@@ -54,7 +54,11 @@ const ProposalSchema = new mongoose.Schema({
             discountPercent: Number,
             discountAmount: Number,
             amount: Number,
-            tax: String,
+            tax: {
+                id: String,
+                name: String,
+                value: Number,
+            },
             amountTaxes: Number,
             comment: String,
         }
