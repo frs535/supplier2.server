@@ -76,12 +76,37 @@ export const getProduct = async (req, res) => {
     }
 };
 
-export  const patchProduct = async (req, res) => {
+export const patchProducts = async (req, res) => {
     try {
         await Product.deleteMany();
-        const savedProduct = await Product.insertMany(req.body);
+        const savedProduct = await Product.insertMany(req.body, {});
 
         res.status(200).json({savedProduct: savedProduct.length})
+    }
+    catch (error){
+        res.status(404).json({ message: error.message });
+    }
+}
+
+export const patchProduct = async (req, res) => {
+    try {
+        const { id } = req.body;
+        await Product.replaceOne({id:id}, req.body, {upsert: true} );
+
+        res.status(200).json({result: true});
+    }
+    catch (error){
+        res.status(404).json({ message: error.message });
+    }
+}
+
+export const deleteProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const result = await Product.deleteOne({id: id});
+
+        res.status(200).json({deleted: result.deletedCount!==0});
     }
     catch (error){
         res.status(404).json({ message: error.message });

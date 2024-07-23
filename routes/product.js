@@ -1,21 +1,26 @@
 import express from "express";
-import {verifyAdminToken, verifyToken} from "../middleware/auth.js";
+import {verifyAdminToken} from "../middleware/auth.js";
 import {
+    deleteProduct,
     getCatigory,
     getCharacteristic,
     getProduct,
     getProducts,
-    patchCategory,
-    patchProduct, pathAttributes, pathCharacteristic
+    patchCategory, patchProduct,
+    patchProducts,
+    pathAttributes,
+    pathCharacteristic
 } from "../controllers/products.js";
-import Category from "../models/Category.js";
 
 const router = express.Router();
 
 router.get("/product", getProduct);
 
 router.get("/products", getProducts);
-router.patch("/products", verifyAdminToken, patchProduct);
+router.patch("/products", verifyAdminToken, patchProducts);
+
+router.patch("/product", verifyAdminToken, patchProduct);
+router.delete("/product/:id", verifyAdminToken, deleteProduct);
 
 router.get("/category", getCatigory);
 router.patch("/category", verifyAdminToken, patchCategory);
