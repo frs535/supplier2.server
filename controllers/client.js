@@ -1,6 +1,7 @@
 import Order from "../models/Order.js";
 import Partner from "../models/Partner.js";
 import Proposal from "../models/Proposal.js";
+import {nanoid} from "nanoid";
 
 export const getPartners = async (req, res)=>{
     try {
@@ -146,11 +147,17 @@ export const postProposal = async (req, res) =>{
     try {
         const { id } = req.body;
 
-        await Proposal.replaceOne({id}, req.body, {upsert: true});
+        const oldProposal = await Proposal.findOne({id: id});
+        const linkId = oldProposal? oldProposal.linkId : nanoid();
 
-        const proposal = await Proposal.findOne({id});
+        const proposal = {
+            linkId,
+                ...req.body
+        };
 
-        res.status(200).json({id:proposal.linkId, updatedAt: new Date()});
+        await Proposal.replaceOne({id}, proposal, {upsert: true});
+
+        res.status(200).json({id:linkId, updatedAt: new Date()});
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
