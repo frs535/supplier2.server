@@ -1,5 +1,6 @@
 import express from "express";
 import {
+    deleteProposal,
     getOrder,
     getOrders, getProposal,
     postOrder, postProposal,
@@ -19,5 +20,6 @@ router.post("/orders", verifyToken, postOrder);
 
 router.get("/proposal/:id", getProposal);
 router.post("/proposal", verifyAdminToken, postProposal);
+router.delete("/proposal/:id", verifyAdminToken, deleteProposal);
 
 export  default router;

@@ -132,7 +132,7 @@ export const getProposal = async (req, res) =>{
     try {
         const { id } = req.params;
 
-        const proposal = await Proposal.findOne({id});
+        const proposal = await Proposal.findOne({linkId:id});
 
         if (!proposal) return res.status(404).json({ message: "Proposal not found" });
 
@@ -148,7 +148,21 @@ export const postProposal = async (req, res) =>{
 
         await Proposal.replaceOne({id}, req.body, {upsert: true});
 
-        res.status(200).json({id, updatedAt: new Date()});
+        const proposal = await Proposal.findOne({id});
+
+        res.status(200).json({id:proposal.linkId, updatedAt: new Date()});
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
+export const deleteProposal = async (req, res) =>{
+    try {
+        const { id } = req.params;
+
+        const result = await Proposal.deleteOne({id: id});
+
+        res.status(200).json({deleted: result.deletedCount!==0});
     } catch (error) {
         res.status(404).json({ message: error.message });
     }

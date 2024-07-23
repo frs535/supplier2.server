@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { nanoid } from 'nanoid'
 
 const ProposalSchema = new mongoose.Schema({
     id:{
@@ -8,6 +9,15 @@ const ProposalSchema = new mongoose.Schema({
         min: 32,
         unique: true,
         index: true,
+    },
+    linkId: {
+        type: String,
+        required: true,
+        max: 32,
+        min: 32,
+        unique: true,
+        index: true,
+        default: nanoid()
     },
     number: String,
     date: Date,
