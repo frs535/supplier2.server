@@ -80,6 +80,7 @@ export const getProduct = async (req, res) => {
 
         const promises = product.characteristics.map(async (characteristic) =>{
            return Characteristic.find({id:characteristic})
+               .then(doc=> doc?.length>0? doc[0]: undefined)
         })
 
         const result = {
