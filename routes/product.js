@@ -14,11 +14,10 @@ import {
 
 const router = express.Router();
 
-router.get("/product", getProduct);
-
 router.get("/products", getProducts);
 router.patch("/products", verifyAdminToken, patchProducts);
 
+router.get("/product/:id", getProduct);
 router.patch("/product", verifyAdminToken, patchProduct);
 router.delete("/product/:id", verifyAdminToken, deleteProduct);
 

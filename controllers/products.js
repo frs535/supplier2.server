@@ -52,10 +52,18 @@ export const getProducts = async (req, res) => {
 
 export const getProduct = async (req, res) => {
     try {
-        let { partnerId } = req.user;
-        if (!partnerId) partnerId = "";
 
-        const { id } = req.query;
+        let partnerId;
+        try {
+            partnerId = req.user.partnerId;
+            if (!partnerId) partnerId = "";
+        }
+        catch (err)
+        {
+            partnerId = ""
+        }
+
+        const { id } = req.params;
         if (!id) return res.status(404).json({ message: "Unknown product id" });
 
         const product = await Product.findOne({"id": id});
@@ -70,7 +78,20 @@ export const getProduct = async (req, res) => {
 
         const images = await Image.find({id, destination: "product"}).sort({updatedAt: -1});
 
-        res.status(200).json({product,  stock, prices: !prices? []: prices, defPrice, images});
+        const promises = product.characteristics.map(async (characteristic) =>{
+           return Characteristic.find({id:characteristic})
+        })
+
+        const result = {
+            ...product._doc,
+            variants: await Promise.all(promises),
+            stock,
+            prices: !prices? []: prices,
+            defPrice,
+            images
+        }
+
+        res.status(200).json(result);
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
