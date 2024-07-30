@@ -20,7 +20,7 @@ import { verifyToken } from "./middleware/auth.js";
 
 import jwt from "jsonwebtoken";
 import ApiKeys from "./models/ApiKeys.js";
-import {deleteImages, getImages, postImage} from "./controllers/images.js";
+import {deleteImages, getDefaultProductImages, getImages, postImage} from "./controllers/images.js";
 import fs from 'fs';
 
 /* CONFIGURATION */
@@ -75,6 +75,7 @@ app.get("/api/v1", async (req, res)=>{
 app.post("/api/v1/images/:id", verifyToken, upload.single("file"), postImage);
 app.get("/api/v1/images/:id/:type", verifyToken, upload.single("file"), getImages);
 app.delete("/api/v1/images/:id", verifyToken, deleteImages);
+app.get("/api/v1/image/product/:id", upload.single("file"), getDefaultProductImages);
 
 /* ROUTES */
 app.use("/api/v1/client", clientRoutes);

@@ -97,6 +97,16 @@ export const getImages = async (req, res) => {
     }
 };
 
+export const getDefaultProductImages = async (req, res) => {
+    try {
+        const { id}  = req.params;
+        const image = await Image.findOne({id: id, destination: "product"});
+        res.status(200).json(image);
+    } catch (err) {
+        res.status(409).json({ message: err.message });
+    }
+};
+
 export const deleteImages = async  (req, res) =>{
     try {
         const { id }  = req.params;
