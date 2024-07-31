@@ -17,6 +17,10 @@ const ProposalSchema = new mongoose.Schema({
         unique: true,
         index: true,
     },
+    direction: {
+        type: String,
+        default: "in",
+    },
     number: String,
     date: Date,
     manager: {

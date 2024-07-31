@@ -133,7 +133,8 @@ export const getProposal = async (req, res) =>{
     try {
         const { id } = req.params;
 
-        const proposal = await Proposal.findOne({linkId:id});
+        const proposal = await Proposal.findOne({linkId:id})
+            .then(doc=>doc.goods);
 
         if (!proposal) return res.status(404).json({ message: "Proposal not found" });
 
