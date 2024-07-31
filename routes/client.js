@@ -5,7 +5,7 @@ import {
     getOrders, getProposal,
     postOrder, postProposal,
 } from "../controllers/client.js";
-import {verifyAdminToken, verifyToken} from "../middleware/auth.js";
+import {verifyAdminToken, verifyProposalToken, verifyToken} from "../middleware/auth.js";
 import {getPartner, getPartners, postPartner} from "../controllers/client.js";
 
 const router = express.Router();
@@ -20,6 +20,7 @@ router.post("/orders", verifyToken, postOrder);
 
 router.get("/proposal/:id", getProposal);
 router.post("/proposal", verifyAdminToken, postProposal);
+router.patch("/proposal", verifyProposalToken, postProposal);
 router.delete("/proposal/:id", verifyAdminToken, deleteProposal);
 
 export  default router;

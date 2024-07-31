@@ -2,6 +2,7 @@ import Order from "../models/Order.js";
 import Partner from "../models/Partner.js";
 import Proposal from "../models/Proposal.js";
 import {nanoid} from "nanoid";
+import jwt from "jsonwebtoken";
 
 export const getPartners = async (req, res)=>{
     try {
@@ -133,11 +134,28 @@ export const getProposal = async (req, res) =>{
     try {
         const { id } = req.params;
 
-        const proposal = await Proposal.findOne({linkId:id});
+        const proposal = await Proposal.findOne({linkId:id})
+            .then(model=>model._doc);
 
         if (!proposal) return res.status(404).json({ message: "Proposal not found" });
 
-        res.status(200).json(proposal);
+        const token = jwt.sign({
+            id: proposal.id,
+            _id: proposal._id
+        }, process.env.JWT_SECRET, {expiresIn: "10h"});
+
+        const expirationTo = new Date();
+        expirationTo.setTime(expirationTo.getTime() + (10 * 60 * 60 * 1000));
+
+        const newProposal = {
+            ...proposal,
+            auth: {
+                expirationTo,
+                token
+            }
+        };
+
+        res.status(200).json(newProposal);
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
