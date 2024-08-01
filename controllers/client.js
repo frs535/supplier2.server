@@ -161,9 +161,35 @@ export const getProposal = async (req, res) =>{
     }
 }
 
+export const getUnhandledProposal = async (req, res) =>{
+    try {
+
+        const proposals =  await Proposal.find({handled: false})
+
+        res.status(200).json(proposals);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
+export const putHandleedProposal = async (req, res) =>{
+    try {
+        const { id } = req.params;
+        if (!id) return res.status(404).json({ message: "id is required" });
+
+        await Proposal.updateOne({id}, {$set: {handled : true}})
+
+        res.status(200).json({ message: "Successfully updated" });
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
 export const postProposal = async (req, res) =>{
     try {
         const { id } = req.body;
+
+        if (!id) return res.status(404).json({ message: "id is required" });
 
         const oldProposal = await Proposal.findOne({id: id});
         const linkId = oldProposal? oldProposal.linkId : nanoid();
@@ -176,6 +202,30 @@ export const postProposal = async (req, res) =>{
         await Proposal.replaceOne({id}, proposal, {upsert: true});
 
         res.status(200).json({id:linkId, updatedAt: new Date()});
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
+export const patchProposal = async (req, res) =>{
+    try {
+        const { id } = req.user;
+        if (!id) return res.status(404).json({ message: "id is required" });
+
+        const currentProposal = await Proposal.findOne({basedOn: id, direction: "out"});
+
+        if (currentProposal) {
+            req.body.id = currentProposal.id;
+            req.body.linkId = currentProposal.linkId;
+        }
+        else {
+            req.body.id = nanoid();
+            req.body.linkId = req.body.id;
+        }
+
+        await Proposal.replaceOne({id: req.body.id}, req.body, {upsert: true});
+
+        res.status(200).json({id:req.body.linkId, updatedAt: new Date()});
     } catch (error) {
         res.status(404).json({ message: error.message });
     }

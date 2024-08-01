@@ -19,7 +19,19 @@ const ProposalSchema = new mongoose.Schema({
     },
     direction: {
         type: String,
+        enum : ['in','out'],
         default: "in",
+        index: true,
+    },
+    basedOn: {
+        type: String,
+        default: "",
+        index: true,
+    },
+    handled: {
+        type: Boolean,
+        default: false,
+        index: true,
     },
     number: String,
     date: Date,
