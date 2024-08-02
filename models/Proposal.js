@@ -63,6 +63,10 @@ const ProposalSchema = new mongoose.Schema({
             product: {
                 id: String,
                 name: String,
+                article: {
+                    type: String,
+                    default: ""
+                },
             },
             characteristic: {
                 id: String,
@@ -85,6 +89,7 @@ const ProposalSchema = new mongoose.Schema({
             },
             amountTaxes: Number,
             comment: String,
+            customerComment: String
         }
     ]
 },
