@@ -19,7 +19,7 @@ router.get("/orders", verifyToken, getOrders);
 router.post("/orders", verifyToken, postOrder);
 
 router.get("/proposal/:id", getProposal);
-router.get("/proposal/unhandled",verifyAdminToken, getUnhandledProposal)
+router.get("/proposals",verifyAdminToken, getUnhandledProposal)
 router.post("/proposal", verifyAdminToken, postProposal);
 router.patch("/proposal", verifyProposalToken, patchProposal);
 router.put("/proposal/:id", verifyAdminToken, putHandleedProposal);
