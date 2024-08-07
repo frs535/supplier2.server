@@ -172,7 +172,7 @@ export const getUnhandledProposal = async (req, res) =>{
     }
 }
 
-export const putHandleedProposal = async (req, res) =>{
+export const putHandledProposal = async (req, res) =>{
     try {
         const { id } = req.params;
         if (!id) return res.status(404).json({ message: "id is required" });

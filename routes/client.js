@@ -3,7 +3,7 @@ import {
     deleteProposal,
     getOrder,
     getOrders, getProposal, getUnhandledProposal, patchProposal,
-    postOrder, postProposal, putHandleedProposal,
+    postOrder, postProposal, putHandledProposal,
 } from "../controllers/client.js";
 import {verifyAdminToken, verifyProposalToken, verifyToken} from "../middleware/auth.js";
 import {getPartner, getPartners, postPartner} from "../controllers/client.js";
@@ -21,8 +21,8 @@ router.post("/orders", verifyToken, postOrder);
 router.get("/proposal/:id", getProposal);
 router.get("/proposals",verifyAdminToken, getUnhandledProposal)
 router.post("/proposal", verifyAdminToken, postProposal);
-router.patch("/proposal", verifyProposalToken, patchProposal);
-router.put("/proposal/:id", verifyAdminToken, putHandleedProposal);
+router.post("/newproposal", verifyProposalToken, patchProposal);
+router.put("/proposal/:id", verifyAdminToken, putHandledProposal);
 router.delete("/proposal/:id", verifyAdminToken, deleteProposal);
 
 export  default router;
